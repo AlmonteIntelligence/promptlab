@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 const CATEGORIES = [
-  { id: "career", label: "Career & Work", icon: "💼", description: "Promotions, pivots, job searches, workplace dynamics" },
-  { id: "money", label: "Money & Finance", icon: "💰", description: "Saving, budgeting, debt, investing, side income" },
-  { id: "business", label: "Business & Sales", icon: "📈", description: "Prospects, pitches, pricing, growth, outreach" },
-  { id: "health", label: "Health & Wellness", icon: "🧠", description: "Fitness, mental health, habits, sleep, stress" },
-  { id: "relationships", label: "Relationships", icon: "❤️", description: "Communication, conflict, dating, family, boundaries" },
-  { id: "travel", label: "Travel & Adventure", icon: "✈️", description: "Trips, budgets, itineraries, solo or group travel" },
-  { id: "learning", label: "Learning & Growth", icon: "📚", description: "New skills, studying, courses, self-improvement" },
-  { id: "creativity", label: "Creativity & Writing", icon: "✍️", description: "Writing, content, ideas, creative blocks" },
-  { id: "social", label: "Social Media & Brand", icon: "📱", description: "Content strategy, growth, posting, audience building" },
-  { id: "life", label: "Life Decisions", icon: "🧭", description: "Big choices, direction, purpose, major transitions" },
+  { id: "career", label: "Career & Work", icon: "💼", description: "Promotions, pivots, job searches" },
+  { id: "money", label: "Money & Finance", icon: "💰", description: "Saving, budgeting, investing" },
+  { id: "business", label: "Business & Sales", icon: "📈", description: "Prospects, pitches, growth" },
+  { id: "health", label: "Health & Wellness", icon: "🧠", description: "Fitness, habits, mental health" },
+  { id: "relationships", label: "Relationships", icon: "❤️", description: "Communication, conflict, family" },
+  { id: "travel", label: "Travel & Adventure", icon: "✈️", description: "Trips, budgets, itineraries" },
+  { id: "learning", label: "Learning & Growth", icon: "📚", description: "New skills, self-improvement" },
+  { id: "creativity", label: "Creativity & Writing", icon: "✍️", description: "Ideas, content, creative blocks" },
+  { id: "social", label: "Social Media & Brand", icon: "📱", description: "Growth, content, audience" },
+  { id: "life", label: "Life Decisions", icon: "🧭", description: "Big choices, major transitions" },
   { id: "custom", label: "Something Else", icon: "⚡", description: "Describe your own situation — anything goes" },
 ];
 
@@ -97,6 +97,166 @@ The prompt you write must:
 
 The prompt should be 200-350 words. It should read like it was written by someone who deeply understands both the subject matter AND how to get the best out of AI. Make it feel powerful and specific — not a template with brackets, but a fully realized prompt built for this exact person's situation.`;
 
+const styles = {
+  wrap: {
+    minHeight: "100vh",
+    background: "#080812",
+    color: "#e8e6e0",
+    fontFamily: "'Inter', system-ui, sans-serif",
+  },
+  header: {
+    padding: "20px 24px",
+    borderBottom: "0.5px solid rgba(255,255,255,0.08)",
+    background: "rgba(255,255,255,0.02)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  logoBox: {
+    width: "36px", height: "36px",
+    background: "linear-gradient(135deg, #7c3aed, #a78bfa)",
+    borderRadius: "10px",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontSize: "18px",
+  },
+  brandName: {
+    fontWeight: 700, fontSize: "16px", letterSpacing: "-0.3px",
+    background: "linear-gradient(135deg, #ffffff, #a78bfa)",
+    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+  },
+  brandSub: { fontSize: "11px", color: "rgba(255,255,255,0.35)", marginTop: "1px" },
+  backBtn: {
+    background: "transparent", border: "0.5px solid rgba(255,255,255,0.12)",
+    color: "rgba(255,255,255,0.5)", padding: "7px 14px", borderRadius: "8px",
+    cursor: "pointer", fontSize: "13px",
+  },
+  body: { maxWidth: "600px", margin: "0 auto", padding: "32px 20px" },
+  headline: {
+    textAlign: "center",
+    fontSize: "clamp(26px, 6vw, 38px)",
+    fontWeight: 800,
+    letterSpacing: "-0.8px",
+    lineHeight: 1.15,
+    background: "linear-gradient(135deg, #ffffff 0%, #a78bfa 100%)",
+    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
+    marginBottom: "10px",
+  },
+  tagline: {
+    textAlign: "center", fontSize: "14px",
+    color: "rgba(255,255,255,0.35)", marginBottom: "32px", lineHeight: 1.6,
+  },
+  grid: {
+    display: "grid",
+    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
+    gap: "10px",
+  },
+  card: {
+    background: "rgba(255,255,255,0.04)",
+    border: "0.5px solid rgba(255,255,255,0.09)",
+    borderRadius: "12px",
+    padding: "16px",
+    cursor: "pointer",
+    textAlign: "left",
+    color: "#e8e6e0",
+    transition: "all 0.18s",
+  },
+  cardWide: {
+    gridColumn: "span 2",
+    display: "flex",
+    alignItems: "center",
+    gap: "16px",
+  },
+  iconBox: {
+    width: "36px", height: "36px",
+    borderRadius: "9px",
+    background: "rgba(124,58,237,0.15)",
+    border: "0.5px solid rgba(124,58,237,0.25)",
+    display: "flex", alignItems: "center", justifyContent: "center",
+    fontSize: "18px",
+    flexShrink: 0,
+  },
+  cardTitle: { fontWeight: 600, fontSize: "13px", color: "rgba(255,255,255,0.9)", marginBottom: "3px" },
+  cardDesc: { fontSize: "11px", color: "rgba(255,255,255,0.3)", lineHeight: 1.4 },
+  sectionTitle: {
+    display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px",
+  },
+  sectionEmoji: { fontSize: "22px" },
+  sectionLabel: { fontSize: "20px", fontWeight: 700, letterSpacing: "-0.4px" },
+  sectionHint: { fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "24px" },
+  qBlock: { marginBottom: "20px" },
+  qLabel: {
+    display: "block", fontSize: "13px", fontWeight: 600,
+    marginBottom: "8px", color: "rgba(255,255,255,0.7)",
+  },
+  qNum: {
+    display: "inline-flex", width: "20px", height: "20px",
+    background: "rgba(124,58,237,0.2)", borderRadius: "50%",
+    alignItems: "center", justifyContent: "center",
+    fontSize: "10px", marginRight: "8px", color: "#a78bfa", fontWeight: 700,
+    flexShrink: 0,
+  },
+  textarea: {
+    width: "100%", background: "rgba(255,255,255,0.04)",
+    border: "0.5px solid rgba(255,255,255,0.1)",
+    borderRadius: "10px", padding: "12px", color: "#e8e6e0",
+    fontSize: "14px", resize: "vertical", outline: "none",
+    lineHeight: 1.6, boxSizing: "border-box", fontFamily: "inherit",
+  },
+  generateBtn: {
+    width: "100%", padding: "16px", border: "none",
+    borderRadius: "12px", fontSize: "15px", fontWeight: 700,
+    cursor: "pointer", letterSpacing: "-0.2px", transition: "all 0.2s",
+    marginTop: "4px",
+  },
+  errorBox: {
+    background: "rgba(220,38,38,0.1)", border: "0.5px solid rgba(220,38,38,0.3)",
+    borderRadius: "10px", padding: "12px", marginBottom: "16px",
+    color: "#fca5a5", fontSize: "13px",
+  },
+  readyBadge: {
+    display: "inline-flex", alignItems: "center", gap: "6px",
+    background: "rgba(16,185,129,0.1)", border: "0.5px solid rgba(16,185,129,0.25)",
+    borderRadius: "20px", padding: "5px 14px", marginBottom: "14px",
+    color: "#34d399", fontSize: "12px", fontWeight: 600,
+  },
+  resultTitle: {
+    fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px", marginBottom: "6px",
+  },
+  resultSub: { fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "24px" },
+  promptBox: {
+    background: "rgba(255,255,255,0.04)",
+    border: "0.5px solid rgba(255,255,255,0.1)",
+    borderRadius: "14px", padding: "20px", marginBottom: "16px",
+  },
+  promptText: {
+    fontSize: "14px", lineHeight: 1.85, color: "rgba(255,255,255,0.8)",
+    whiteSpace: "pre-wrap", margin: 0,
+  },
+  copyBtn: {
+    flex: 1, padding: "14px", border: "none",
+    borderRadius: "12px", color: "#fff",
+    fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "all 0.2s",
+  },
+  regenBtn: {
+    padding: "14px 20px",
+    background: "rgba(255,255,255,0.04)",
+    border: "0.5px solid rgba(255,255,255,0.1)",
+    borderRadius: "12px", color: "rgba(255,255,255,0.5)",
+    fontSize: "14px", cursor: "pointer",
+  },
+  tipBox: {
+    background: "rgba(124,58,237,0.07)",
+    border: "0.5px solid rgba(124,58,237,0.15)",
+    borderRadius: "12px", padding: "16px",
+  },
+  tipLabel: {
+    fontSize: "10px", color: "rgba(255,255,255,0.25)", margin: "0 0 6px 0",
+    fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px",
+  },
+  tipText: { fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6, margin: 0 },
+  tipAccent: { color: "#a78bfa" },
+};
+
 export default function App() {
   const [step, setStep] = useState("category");
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -113,11 +273,9 @@ export default function App() {
     setLoading(true);
     setError("");
     setGeneratedPrompt("");
-
     const categoryLabel = selectedCategory.label;
     const answersText = questions.map(q => `${q.label}\n${answers[q.id]}`).join("\n\n");
     const userMessage = `Category: ${categoryLabel}\n\n${answersText}`;
-
     try {
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
@@ -134,15 +292,10 @@ export default function App() {
           messages: [{ role: "user", content: userMessage }],
         }),
       });
-
       const data = await response.json();
       const text = data.content?.map(b => b.text || "").join("") || "";
-      if (text) {
-        setGeneratedPrompt(text);
-        setStep("result");
-      } else {
-        setError("Something went wrong. Try again.");
-      }
+      if (text) { setGeneratedPrompt(text); setStep("result"); }
+      else setError("Something went wrong. Try again.");
     } catch (e) {
       setError("Connection error. Please try again.");
     } finally {
@@ -164,147 +317,101 @@ export default function App() {
     setError("");
   };
 
+  const cardHover = e => {
+    e.currentTarget.style.borderColor = "rgba(167,139,250,0.35)";
+    e.currentTarget.style.background = "rgba(255,255,255,0.07)";
+  };
+  const cardLeave = e => {
+    e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
+    e.currentTarget.style.background = "rgba(255,255,255,0.04)";
+  };
+
   return (
-    <div style={{
-      minHeight: "100vh",
-      background: "#0a0a0f",
-      color: "#e8e6e0",
-      fontFamily: "'Inter', system-ui, sans-serif",
-    }}>
-      <div style={{
-        borderBottom: "1px solid #1e1e2e",
-        padding: "20px 24px",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        background: "#0d0d15",
-      }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-          <div style={{
-            width: "32px", height: "32px",
-            background: "linear-gradient(135deg, #6c63ff, #a78bfa)",
-            borderRadius: "8px",
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontSize: "16px",
-          }}>⚡</div>
+    <div style={styles.wrap}>
+      <div style={styles.header}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          <div style={styles.logoBox}>⚡</div>
           <div>
-            <div style={{ fontWeight: 700, fontSize: "15px", letterSpacing: "-0.3px" }}>PromptLab</div>
-            <div style={{ fontSize: "11px", color: "#6b7280" }}>AI Prompt Generator</div>
+            <div style={styles.brandName}>PromptLab</div>
+            <div style={styles.brandSub}>AI Prompt Engine</div>
           </div>
         </div>
         {step !== "category" && (
-          <button onClick={handleReset} style={{
-            background: "transparent", border: "1px solid #2a2a3e",
-            color: "#9ca3af", padding: "6px 14px", borderRadius: "6px",
-            cursor: "pointer", fontSize: "13px",
-          }}>← Start Over</button>
+          <button onClick={handleReset} style={styles.backBtn}>← Start Over</button>
         )}
       </div>
 
-      <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 20px" }}>
+      <div style={styles.body}>
 
         {step === "category" && (
           <div>
-            <div style={{ textAlign: "center", marginBottom: "36px" }}>
-              <h1 style={{
-                fontSize: "clamp(24px, 5vw, 36px)", fontWeight: 800,
-                letterSpacing: "-0.8px", lineHeight: 1.15,
-                background: "linear-gradient(135deg, #e8e6e0 0%, #a78bfa 100%)",
-                WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-                marginBottom: "12px",
-              }}>
-                What are you trying to figure out?
-              </h1>
-              <p style={{ color: "#6b7280", fontSize: "15px", lineHeight: 1.6 }}>
-                Answer a few questions. Get a prompt that actually gets you somewhere.
-              </p>
-            </div>
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
-              {CATEGORIES.map(cat => (
-                <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep("questions"); }}
-                  style={{
-                    background: "#111120", border: "1px solid #1e1e2e",
-                    borderRadius: "10px", padding: "16px", textAlign: "left",
-                    cursor: "pointer", transition: "all 0.15s", color: "#e8e6e0",
-                  }}
-                  onMouseEnter={e => { e.currentTarget.style.borderColor = "#6c63ff"; e.currentTarget.style.background = "#13131f"; }}
-                  onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e2e"; e.currentTarget.style.background = "#111120"; }}
+            <h1 style={styles.headline}>What are you trying<br />to figure out?</h1>
+            <p style={styles.tagline}>Answer a few questions. Get a prompt that actually gets you somewhere.</p>
+            <div style={styles.grid}>
+              {CATEGORIES.filter(c => c.id !== "custom").map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => { setSelectedCategory(cat); setStep("questions"); }}
+                  style={styles.card}
+                  onMouseEnter={cardHover}
+                  onMouseLeave={cardLeave}
                 >
-                  <div style={{ fontSize: "22px", marginBottom: "6px" }}>{cat.icon}</div>
-                  <div style={{ fontWeight: 600, fontSize: "14px", marginBottom: "4px" }}>{cat.label}</div>
-                  <div style={{ fontSize: "12px", color: "#6b7280", lineHeight: 1.4 }}>{cat.description}</div>
+                  <div style={{ ...styles.iconBox, marginBottom: "10px" }}>{cat.icon}</div>
+                  <div style={styles.cardTitle}>{cat.label}</div>
+                  <div style={styles.cardDesc}>{cat.description}</div>
                 </button>
               ))}
+              <button
+                onClick={() => { setSelectedCategory(CATEGORIES.find(c => c.id === "custom")); setStep("questions"); }}
+                style={{ ...styles.card, ...styles.cardWide }}
+                onMouseEnter={cardHover}
+                onMouseLeave={cardLeave}
+              >
+                <div style={styles.iconBox}>⚡</div>
+                <div>
+                  <div style={styles.cardTitle}>Something Else</div>
+                  <div style={styles.cardDesc}>Describe your own situation — anything goes</div>
+                </div>
+              </button>
             </div>
           </div>
         )}
 
         {step === "questions" && selectedCategory && (
           <div>
-            <div style={{ marginBottom: "28px" }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-                <span style={{ fontSize: "24px" }}>{selectedCategory.icon}</span>
-                <h2 style={{ fontSize: "22px", fontWeight: 700, letterSpacing: "-0.4px" }}>
-                  {selectedCategory.label}
-                </h2>
+            <div style={styles.sectionTitle}>
+              <span style={styles.sectionEmoji}>{selectedCategory.icon}</span>
+              <h2 style={{ ...styles.sectionLabel, margin: 0 }}>{selectedCategory.label}</h2>
+            </div>
+            <p style={styles.sectionHint}>Be specific — the more honest your answers, the more powerful your prompt.</p>
+            {questions.map((q, i) => (
+              <div key={q.id} style={styles.qBlock}>
+                <label style={styles.qLabel}>
+                  <span style={styles.qNum}>{i + 1}</span>
+                  {q.label}
+                </label>
+                <textarea
+                  value={answers[q.id] || ""}
+                  onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
+                  placeholder={q.placeholder}
+                  rows={3}
+                  style={styles.textarea}
+                  onFocus={e => e.target.style.borderColor = "rgba(167,139,250,0.4)"}
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
+                />
               </div>
-              <p style={{ color: "#6b7280", fontSize: "14px" }}>
-                Be specific — the more honest your answers, the more powerful your prompt.
-              </p>
-            </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "28px" }}>
-              {questions.map((q, i) => (
-                <div key={q.id}>
-                  <label style={{
-                    display: "block", fontSize: "14px", fontWeight: 600,
-                    marginBottom: "8px", color: "#c4c2be",
-                  }}>
-                    <span style={{
-                      display: "inline-block", width: "22px", height: "22px",
-                      background: "#1e1e2e", borderRadius: "50%",
-                      textAlign: "center", lineHeight: "22px",
-                      fontSize: "11px", marginRight: "8px", color: "#a78bfa",
-                    }}>{i + 1}</span>
-                    {q.label}
-                  </label>
-                  <textarea
-                    value={answers[q.id] || ""}
-                    onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-                    placeholder={q.placeholder}
-                    rows={3}
-                    style={{
-                      width: "100%", background: "#111120", border: "1px solid #1e1e2e",
-                      borderRadius: "8px", padding: "12px", color: "#e8e6e0",
-                      fontSize: "14px", resize: "vertical", outline: "none",
-                      lineHeight: 1.6, boxSizing: "border-box",
-                      fontFamily: "inherit", transition: "border-color 0.15s",
-                    }}
-                    onFocus={e => e.target.style.borderColor = "#6c63ff"}
-                    onBlur={e => e.target.style.borderColor = "#1e1e2e"}
-                  />
-                </div>
-              ))}
-            </div>
-            {error && (
-              <div style={{
-                background: "#1f1015", border: "1px solid #7f1d1d",
-                borderRadius: "8px", padding: "12px", marginBottom: "16px",
-                color: "#fca5a5", fontSize: "13px",
-              }}>{error}</div>
-            )}
+            ))}
+            {error && <div style={styles.errorBox}>{error}</div>}
             <button
               onClick={handleGenerate}
               disabled={!allAnswered || loading}
               style={{
-                width: "100%", padding: "16px",
+                ...styles.generateBtn,
                 background: allAnswered && !loading
-                  ? "linear-gradient(135deg, #6c63ff, #a78bfa)"
-                  : "#1e1e2e",
-                border: "none", borderRadius: "10px",
-                color: allAnswered && !loading ? "#fff" : "#4b5563",
-                fontSize: "15px", fontWeight: 700,
+                  ? "linear-gradient(135deg, #7c3aed, #a78bfa)"
+                  : "rgba(255,255,255,0.05)",
+                color: allAnswered && !loading ? "#fff" : "rgba(255,255,255,0.2)",
                 cursor: allAnswered && !loading ? "pointer" : "default",
-                letterSpacing: "-0.2px", transition: "all 0.2s",
               }}
             >
               {loading ? "Building your prompt..." : "Generate My Prompt →"}
@@ -314,64 +421,34 @@ export default function App() {
 
         {step === "result" && (
           <div>
-            <div style={{ textAlign: "center", marginBottom: "28px" }}>
-              <div style={{
-                display: "inline-flex", alignItems: "center", gap: "8px",
-                background: "#13201a", border: "1px solid #166534",
-                borderRadius: "20px", padding: "6px 14px", marginBottom: "16px",
-              }}>
-                <span style={{ color: "#4ade80", fontSize: "12px" }}>✓</span>
-                <span style={{ color: "#4ade80", fontSize: "12px", fontWeight: 600 }}>Prompt ready</span>
+            <div style={{ textAlign: "center", marginBottom: "24px" }}>
+              <div style={styles.readyBadge}>
+                <span>✓</span><span>Prompt ready</span>
               </div>
-              <h2 style={{ fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px", marginBottom: "8px" }}>
-                Your expert prompt
-              </h2>
-              <p style={{ color: "#6b7280", fontSize: "14px" }}>
-                Copy and paste this directly into Claude or ChatGPT.
-              </p>
+              <h2 style={styles.resultTitle}>Your expert prompt</h2>
+              <p style={styles.resultSub}>Copy and paste this directly into Claude or ChatGPT.</p>
             </div>
-            <div style={{
-              background: "#111120", border: "1px solid #2a2a3e",
-              borderRadius: "12px", padding: "20px", marginBottom: "16px",
-              position: "relative",
-            }}>
-              <div style={{
-                position: "absolute", top: "12px", right: "12px",
-                width: "8px", height: "8px", borderRadius: "50%",
-                background: "#a78bfa", opacity: 0.6,
-              }} />
-              <p style={{
-                fontSize: "14px", lineHeight: 1.8, color: "#d1cfc9",
-                whiteSpace: "pre-wrap", margin: 0,
-              }}>{generatedPrompt}</p>
+            <div style={styles.promptBox}>
+              <p style={styles.promptText}>{generatedPrompt}</p>
             </div>
-            <div style={{ display: "flex", gap: "10px", marginBottom: "24px" }}>
+            <div style={{ display: "flex", gap: "10px", marginBottom: "16px" }}>
               <button onClick={handleCopy} style={{
-                flex: 1, padding: "14px",
+                ...styles.copyBtn,
                 background: copied
                   ? "linear-gradient(135deg, #065f46, #047857)"
-                  : "linear-gradient(135deg, #6c63ff, #a78bfa)",
-                border: "none", borderRadius: "10px", color: "#fff",
-                fontSize: "14px", fontWeight: 700, cursor: "pointer",
-                transition: "all 0.2s",
+                  : "linear-gradient(135deg, #7c3aed, #a78bfa)",
               }}>
                 {copied ? "✓ Copied!" : "Copy Prompt"}
               </button>
-              <button onClick={() => { setStep("questions"); setGeneratedPrompt(""); }} style={{
-                padding: "14px 20px", background: "#111120",
-                border: "1px solid #2a2a3e", borderRadius: "10px",
-                color: "#9ca3af", fontSize: "14px", cursor: "pointer",
-              }}>
+              <button onClick={() => { setStep("questions"); setGeneratedPrompt(""); }} style={styles.regenBtn}>
                 Regenerate
               </button>
             </div>
-            <div style={{
-              background: "#0f0f1a", border: "1px solid #1e1e2e",
-              borderRadius: "10px", padding: "16px",
-            }}>
-              <p style={{ fontSize: "12px", color: "#4b5563", margin: "0 0 8px 0", fontWeight: 600, textTransform: "uppercase", letterSpacing: "0.5px" }}>Pro tip</p>
-              <p style={{ fontSize: "13px", color: "#6b7280", lineHeight: 1.6, margin: 0 }}>
-                After the AI responds, follow up with: <span style={{ color: "#a78bfa" }}>"What's the one thing I haven't considered that could change everything here?"</span>
+            <div style={styles.tipBox}>
+              <p style={styles.tipLabel}>Pro tip</p>
+              <p style={styles.tipText}>
+                After the AI responds, follow up with:{" "}
+                <span style={styles.tipAccent}>"What's the one thing I haven't considered that could change everything here?"</span>
               </p>
             </div>
           </div>
