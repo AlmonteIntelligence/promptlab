@@ -121,7 +121,12 @@ export default function App() {
     try {
       const response = await fetch("https://api.anthropic.com/v1/messages", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": import.meta.env.VITE_ANTHROPIC_API_KEY,
+          "anthropic-version": "2023-06-01",
+          "anthropic-dangerous-direct-browser-access": "true",
+        },
         body: JSON.stringify({
           model: "claude-sonnet-4-20250514",
           max_tokens: 1000,
@@ -166,7 +171,6 @@ export default function App() {
       color: "#e8e6e0",
       fontFamily: "'Inter', system-ui, sans-serif",
     }}>
-      {/* Header */}
       <div style={{
         borderBottom: "1px solid #1e1e2e",
         padding: "20px 24px",
@@ -199,7 +203,6 @@ export default function App() {
 
       <div style={{ maxWidth: "680px", margin: "0 auto", padding: "32px 20px" }}>
 
-        {/* Step: Category */}
         {step === "category" && (
           <div>
             <div style={{ textAlign: "center", marginBottom: "36px" }}>
@@ -216,15 +219,13 @@ export default function App() {
                 Answer a few questions. Get a prompt that actually gets you somewhere.
               </p>
             </div>
-
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px" }}>
               {CATEGORIES.map(cat => (
                 <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep("questions"); }}
                   style={{
                     background: "#111120", border: "1px solid #1e1e2e",
                     borderRadius: "10px", padding: "16px", textAlign: "left",
-                    cursor: "pointer", transition: "all 0.15s",
-                    color: "#e8e6e0",
+                    cursor: "pointer", transition: "all 0.15s", color: "#e8e6e0",
                   }}
                   onMouseEnter={e => { e.currentTarget.style.borderColor = "#6c63ff"; e.currentTarget.style.background = "#13131f"; }}
                   onMouseLeave={e => { e.currentTarget.style.borderColor = "#1e1e2e"; e.currentTarget.style.background = "#111120"; }}
@@ -238,7 +239,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Step: Questions */}
         {step === "questions" && selectedCategory && (
           <div>
             <div style={{ marginBottom: "28px" }}>
@@ -252,7 +252,6 @@ export default function App() {
                 Be specific — the more honest your answers, the more powerful your prompt.
               </p>
             </div>
-
             <div style={{ display: "flex", flexDirection: "column", gap: "20px", marginBottom: "28px" }}>
               {questions.map((q, i) => (
                 <div key={q.id}>
@@ -286,7 +285,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-
             {error && (
               <div style={{
                 background: "#1f1015", border: "1px solid #7f1d1d",
@@ -294,7 +292,6 @@ export default function App() {
                 color: "#fca5a5", fontSize: "13px",
               }}>{error}</div>
             )}
-
             <button
               onClick={handleGenerate}
               disabled={!allAnswered || loading}
@@ -315,7 +312,6 @@ export default function App() {
           </div>
         )}
 
-        {/* Step: Result */}
         {step === "result" && (
           <div>
             <div style={{ textAlign: "center", marginBottom: "28px" }}>
@@ -334,7 +330,6 @@ export default function App() {
                 Copy and paste this directly into Claude or ChatGPT.
               </p>
             </div>
-
             <div style={{
               background: "#111120", border: "1px solid #2a2a3e",
               borderRadius: "12px", padding: "20px", marginBottom: "16px",
@@ -350,7 +345,6 @@ export default function App() {
                 whiteSpace: "pre-wrap", margin: 0,
               }}>{generatedPrompt}</p>
             </div>
-
             <div style={{ display: "flex", gap: "10px", marginBottom: "24px" }}>
               <button onClick={handleCopy} style={{
                 flex: 1, padding: "14px",
@@ -371,7 +365,6 @@ export default function App() {
                 Regenerate
               </button>
             </div>
-
             <div style={{
               background: "#0f0f1a", border: "1px solid #1e1e2e",
               borderRadius: "10px", padding: "16px",
