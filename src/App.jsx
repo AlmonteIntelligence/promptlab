@@ -332,8 +332,11 @@ export default function App() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div style={styles.logoBox}>⚡</div>
           <div>
-            <div style={styles.brandName}>PromptLab</div>
-            <div style={styles.brandSub}>AI Prompt Engine</div>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+  <div style={styles.brandName}>PromptLab</div>
+  <div style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.15)" }} />
+  <div style={styles.brandSub}>AI Prompt Engine</div>
+</div>
           </div>
         </div>
         {step !== "category" && (
