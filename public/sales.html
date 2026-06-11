@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PromptLab — AI Prompt Engine</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: #080812;
+    color: #e8e6e0;
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; text-decoration: none; }
+
+  .nav {
+    padding: 20px 24px;
+    border-bottom: 0.5px solid rgba(255,255,255,0.07);
+    background: rgba(8,8,18,0.95);
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .nav-brand { display: flex; align-items: center; gap: 12px; }
+  .nav-logo {
+    width: 36px; height: 36px;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .nav-name {
+    font-size: 17px; font-weight: 700; letter-spacing: -0.4px;
+    background: linear-gradient(135deg, #ffffff, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-sub {
+    font-size: 11px; color: rgba(255,255,255,0.3);
+    margin-left: 8px;
+    border-left: 0.5px solid rgba(255,255,255,0.15);
+    padding-left: 8px;
+  }
+  .nav-cta {
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff; font-size: 13px; font-weight: 600;
+    padding: 8px 18px; border-radius: 8px; border: none;
+    cursor: pointer; white-space: nowrap;
+    text-decoration: none; display: inline-block;
+  }
+
+  .hero {
+    max-width: 680px; margin: 0 auto;
+    padding: 72px 24px 56px;
+    text-align: center;
+  }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(124,58,237,0.12);
+    border: 0.5px solid rgba(124,58,237,0.3);
+    border-radius: 20px; padding: 6px 14px;
+    font-size: 12px; font-weight: 600; color: #a78bfa;
+    margin-bottom: 28px;
+  }
+  .hero-badge span { width: 6px; height: 6px; background: #a78bfa; border-radius: 50%; display: inline-block; }
+  .hero-headline {
+    font-size: clamp(36px, 8vw, 58px);
+    font-weight: 800; letter-spacing: -1.5px; line-height: 1.05;
+    background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 60%, #a78bfa 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 20px;
+  }
+  .hero-sub {
+    font-size: 18px; color: rgba(255,255,255,0.45);
+    line-height: 1.65; max-width: 520px; margin: 0 auto 40px;
+    font-weight: 400;
+  }
+  .hero-sub strong { color: rgba(255,255,255,0.75); font-weight: 600; }
+  .hero-cta-wrap { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff; font-size: 16px; font-weight: 700;
+    padding: 16px 36px; border-radius: 12px;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 0 40px rgba(124,58,237,0.25);
+  }
+  .hero-cta:hover { transform: translateY(-1px); box-shadow: 0 0 60px rgba(124,58,237,0.35); }
+  .hero-price { font-size: 13px; color: rgba(255,255,255,0.3); }
+  .hero-price strong { color: rgba(255,255,255,0.6); }
+
+  .divider {
+    height: 0.5px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+    margin: 0 24px;
+  }
+
+  .section { max-width: 680px; margin: 0 auto; padding: 64px 24px; }
+
+  .problem { text-align: center; }
+  .problem-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .problem-headline {
+    font-size: clamp(24px, 5vw, 36px); font-weight: 800;
+    letter-spacing: -0.8px; line-height: 1.2; margin-bottom: 20px;
+    color: #fff;
+  }
+  .problem-body {
+    font-size: 16px; color: rgba(255,255,255,0.45); line-height: 1.75;
+    max-width: 520px; margin: 0 auto;
+  }
+  .problem-body strong { color: rgba(255,255,255,0.75); }
+
+  .how-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25); text-transform: uppercase;
+    margin-bottom: 20px; text-align: center;
+  }
+  .how-headline {
+    font-size: clamp(22px, 4vw, 32px); font-weight: 800;
+    letter-spacing: -0.6px; margin-bottom: 40px; text-align: center; color: #fff;
+  }
+  .steps { display: flex; flex-direction: column; gap: 16px; }
+  .step {
+    display: flex; align-items: flex-start; gap: 16px;
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 14px; padding: 20px;
+  }
+  .step-num {
+    width: 32px; height: 32px; flex-shrink: 0;
+    background: rgba(124,58,237,0.15);
+    border: 0.5px solid rgba(124,58,237,0.3);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; color: #a78bfa;
+  }
+  .step-title { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 4px; }
+  .step-desc { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.55; }
+
+  .categories-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25); text-transform: uppercase;
+    margin-bottom: 20px; text-align: center;
+  }
+  .categories-headline {
+    font-size: clamp(22px, 4vw, 32px); font-weight: 800;
+    letter-spacing: -0.6px; margin-bottom: 32px; text-align: center; color: #fff;
+  }
+  .cat-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  .cat-card {
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .cat-icon {
+    width: 34px; height: 34px; flex-shrink: 0;
+    background: rgba(124,58,237,0.12);
+    border: 0.5px solid rgba(124,58,237,0.2);
+    border-radius: 9px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+  }
+  .cat-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.85); }
+  .cat-wide { grid-column: span 2; }
+
+  .works-with {
+    text-align: center; margin-top: 32px;
+    font-size: 13px; color: rgba(255,255,255,0.25);
+  }
+  .works-with strong { color: rgba(255,255,255,0.5); }
+
+  .pricing-wrap { text-align: center; }
+  .pricing-label {
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.25); text-transform: uppercase; margin-bottom: 20px;
+  }
+  .pricing-headline {
+    font-size: clamp(22px, 4vw, 32px); font-weight: 800;
+    letter-spacing: -0.6px; margin-bottom: 32px; color: #fff;
+  }
+  .pricing-card {
+    background: rgba(255,255,255,0.03);
+    border: 0.5px solid rgba(124,58,237,0.25);
+    border-radius: 20px; padding: 40px 32px;
+    max-width: 420px; margin: 0 auto;
+    position: relative; overflow: hidden;
+  }
+  .pricing-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at top, rgba(124,58,237,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .pricing-amount {
+    font-size: 56px; font-weight: 800; letter-spacing: -2px;
+    background: linear-gradient(135deg, #ffffff, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    margin-bottom: 4px;
+  }
+  .pricing-period { font-size: 14px; color: rgba(255,255,255,0.3); margin-bottom: 28px; }
+  .pricing-features { list-style: none; margin-bottom: 32px; text-align: left; }
+  .pricing-features li {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 14px; color: rgba(255,255,255,0.6);
+    padding: 8px 0;
+    border-bottom: 0.5px solid rgba(255,255,255,0.05);
+  }
+  .pricing-features li:last-child { border-bottom: none; }
+  .pricing-features li::before {
+    content: '✓';
+    color: #a78bfa; font-weight: 700; font-size: 13px; flex-shrink: 0;
+  }
+  .pricing-cta {
+    display: block; width: 100%;
+    background: linear-gradient(135deg, #7c3aed, #a78bfa);
+    color: #fff; font-size: 16px; font-weight: 700;
+    padding: 16px; border-radius: 12px;
+    border: none; cursor: pointer;
+    text-decoration: none; text-align: center;
+    transition: transform 0.15s;
+  }
+  .pricing-cta:hover { transform: translateY(-1px); }
+  .pricing-note { font-size: 12px; color: rgba(255,255,255,0.2); margin-top: 16px; }
+
+  .footer {
+    border-top: 0.5px solid rgba(255,255,255,0.06);
+    padding: 32px 24px;
+    text-align: center;
+    font-size: 12px; color: rgba(255,255,255,0.2);
+  }
+
+  @media (max-width: 480px) {
+    .nav-sub { display: none; }
+    .hero { padding: 52px 20px 44px; }
+    .section { padding: 48px 20px; }
+    .pricing-card { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <div class="nav-logo">
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+        <path d="M11.5 2L4 11.5H10L8.5 18L16 8.5H10L11.5 2Z" fill="white" stroke="white" stroke-width="0.5" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <span class="nav-name">PromptLab</span>
+    <span class="nav-sub">AI Prompt Engine</span>
+  </div>
+  <a href="https://promptlab35.gumroad.com/l/promptlab" class="nav-cta">Get Access — $27</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge"><span></span> AI-Powered Prompt Generator</div>
+  <h1 class="hero-headline">Stop Getting<br>Generic AI Answers</h1>
+  <p class="hero-sub">
+    Most people use AI wrong — not because they're bad at technology,
+    but because they ask vague questions.<br><br>
+    <strong>PromptLab builds you an expert-level prompt from your actual situation.</strong>
+    In 2 minutes.
+  </p>
+  <div class="hero-cta-wrap">
+    <a href="https://promptlab35.gumroad.com/l/promptlab" class="hero-cta">
+      Get Instant Access ⚡
+    </a>
+    <span class="hero-price">One-time payment · <strong>$27</strong> · No subscription</span>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section problem">
+  <p class="problem-label">The Problem</p>
+  <h2 class="problem-headline">Your AI gives bad answers<br>because your prompts are bad</h2>
+  <p class="problem-body">
+    Generic questions get generic answers. "How do I save money?" gets you a listicle.
+    "How do I get a promotion?" gets you advice that could apply to anyone.<br><br>
+    <strong>The AI isn't the problem. The prompt is.</strong><br><br>
+    Expert prompt engineers use role-framing, chain-of-thought triggers, and output constraints
+    to get dramatically better results. PromptLab does all of that for you — automatically,
+    based on your specific situation.
+  </p>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="how-label">How It Works</p>
+  <h2 class="how-headline">Three steps to an expert prompt</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">Pick your category</div>
+        <div class="step-desc">Career, money, business, health, relationships, travel, and more — or describe your own situation.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">Answer 4 honest questions</div>
+        <div class="step-desc">Your real situation, your actual goal, what's holding you back, what you've already tried. The more specific, the better.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">Get your expert prompt</div>
+        <div class="step-desc">A 250-300 word prompt built specifically for your situation. Copy and paste it directly into Claude or ChatGPT.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section">
+  <p class="categories-label">What It Covers</p>
+  <h2 class="categories-headline">Whatever you have going on</h2>
+  <div class="cat-grid">
+    <div class="cat-card"><div class="cat-icon">💼</div><div class="cat-name">Career & Work</div></div>
+    <div class="cat-card"><div class="cat-icon">💰</div><div class="cat-name">Money & Finance</div></div>
+    <div class="cat-card"><div class="cat-icon">📈</div><div class="cat-name">Business & Sales</div></div>
+    <div class="cat-card"><div class="cat-icon">🧠</div><div class="cat-name">Health & Wellness</div></div>
+    <div class="cat-card"><div class="cat-icon">❤️</div><div class="cat-name">Relationships</div></div>
+    <div class="cat-card"><div class="cat-icon">✈️</div><div class="cat-name">Travel & Adventure</div></div>
+    <div class="cat-card"><div class="cat-icon">📚</div><div class="cat-name">Learning & Growth</div></div>
+    <div class="cat-card"><div class="cat-icon">✍️</div><div class="cat-name">Creativity & Writing</div></div>
+    <div class="cat-card"><div class="cat-icon">📱</div><div class="cat-name">Social Media & Brand</div></div>
+    <div class="cat-card"><div class="cat-icon">🧭</div><div class="cat-name">Life Decisions</div></div>
+    <div class="cat-card cat-wide"><div class="cat-icon">⚡</div><div class="cat-name">Something Else — anything goes</div></div>
+  </div>
+  <div class="works-with">Works with <strong>ChatGPT, Claude, Gemini</strong> and any other AI tool</div>
+</section>
+
+<div class="divider"></div>
+
+<section class="section pricing-wrap">
+  <p class="pricing-label">Pricing</p>
+  <h2 class="pricing-headline">One price. Unlimited prompts.</h2>
+  <div class="pricing-card">
+    <div class="pricing-amount">$27</div>
+    <div class="pricing-period">One-time payment · Instant access · No subscription</div>
+    <ul class="pricing-features">
+      <li>Full access to the PromptLab AI Prompt Engine</li>
+      <li>11 categories covering every area of life and work</li>
+      <li>Expert-level prompts built from your actual situation</li>
+      <li>Works with ChatGPT, Claude, Gemini & more</li>
+      <li>No login required — works on any device</li>
+      <li>Unlimited prompt generation</li>
+    </ul>
+    <a href="https://promptlab35.gumroad.com/l/promptlab" class="pricing-cta">Get Instant Access ⚡</a>
+    <p class="pricing-note">Secure checkout via Gumroad · Instant delivery</p>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2026 PromptLab · AI Prompt Engine</p>
+</footer>
+
+</body>
+</html>
