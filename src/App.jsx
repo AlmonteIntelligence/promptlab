@@ -1,16 +1,16 @@
 import { useState } from "react";
 
 const CATEGORIES = [
-  { id: "career", label: "Career & Work", icon: "💼", description: "Promotions, pivots, job searches" },
-  { id: "money", label: "Money & Finance", icon: "💰", description: "Saving, budgeting, investing" },
-  { id: "business", label: "Business & Sales", icon: "📈", description: "Prospects, pitches, growth" },
-  { id: "health", label: "Health & Wellness", icon: "🧠", description: "Fitness, habits, mental health" },
-  { id: "relationships", label: "Relationships", icon: "❤️", description: "Communication, conflict, family" },
-  { id: "travel", label: "Travel & Adventure", icon: "✈️", description: "Trips, budgets, itineraries" },
-  { id: "learning", label: "Learning & Growth", icon: "📚", description: "New skills, self-improvement" },
-  { id: "creativity", label: "Creativity & Writing", icon: "✍️", description: "Ideas, content, creative blocks" },
-  { id: "social", label: "Social Media & Brand", icon: "📱", description: "Growth, content, audience" },
-  { id: "life", label: "Life Decisions", icon: "🧭", description: "Big choices, major transitions" },
+  { id: "career", label: "Career & Work", icon: "💼", description: "Promotions, pivots, job searches, workplace dynamics" },
+  { id: "money", label: "Money & Finance", icon: "💰", description: "Saving, budgeting, debt, investing, side income" },
+  { id: "business", label: "Business & Sales", icon: "📈", description: "Prospects, pitches, pricing, growth, outreach" },
+  { id: "health", label: "Health & Wellness", icon: "🧠", description: "Fitness, mental health, habits, sleep, stress" },
+  { id: "relationships", label: "Relationships", icon: "❤️", description: "Communication, conflict, dating, family, boundaries" },
+  { id: "travel", label: "Travel & Adventure", icon: "✈️", description: "Trips, budgets, itineraries, solo or group travel" },
+  { id: "learning", label: "Learning & Growth", icon: "📚", description: "New skills, studying, courses, self-improvement" },
+  { id: "creativity", label: "Creativity & Writing", icon: "✍️", description: "Writing, content, ideas, creative blocks" },
+  { id: "social", label: "Social Media & Brand", icon: "📱", description: "Content strategy, growth, posting, audience building" },
+  { id: "life", label: "Life Decisions", icon: "🧭", description: "Big choices, direction, purpose, major transitions" },
   { id: "custom", label: "Something Else", icon: "⚡", description: "Describe your own situation — anything goes" },
 ];
 
@@ -97,167 +97,60 @@ The prompt you write must:
 
 The prompt should be 200-350 words. It should read like it was written by someone who deeply understands both the subject matter AND how to get the best out of AI. Make it feel powerful and specific — not a template with brackets, but a fully realized prompt built for this exact person's situation.`;
 
+const GUMROAD_PRODUCT_ID = "promptlabengine";
+
 const styles = {
-  wrap: {
-    minHeight: "100vh",
-    background: "#080812",
-    color: "#e8e6e0",
-    fontFamily: "'Inter', system-ui, sans-serif",
-  },
-  header: {
-    padding: "20px 24px",
-    borderBottom: "0.5px solid rgba(255,255,255,0.08)",
-    background: "rgba(255,255,255,0.02)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  logoBox: {
-    width: "36px", height: "36px",
-    background: "linear-gradient(135deg, #7c3aed, #a78bfa)",
-    borderRadius: "10px",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    fontSize: "18px",
-  },
-  brandName: {
-    fontWeight: 700, fontSize: "16px", letterSpacing: "-0.3px",
-    background: "linear-gradient(135deg, #ffffff, #a78bfa)",
-    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-  },
-  brandSub: { fontSize: "11px", color: "rgba(255,255,255,0.35)", marginTop: "1px" },
-  backBtn: {
-    background: "transparent", border: "0.5px solid rgba(255,255,255,0.12)",
-    color: "rgba(255,255,255,0.5)", padding: "7px 14px", borderRadius: "8px",
-    cursor: "pointer", fontSize: "13px",
-  },
+  wrap: { minHeight: "100vh", background: "#080812", color: "#e8e6e0", fontFamily: "'Inter', system-ui, sans-serif" },
+  header: { padding: "20px 24px", borderBottom: "0.5px solid rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)", display: "flex", alignItems: "center", justifyContent: "space-between" },
+  logoBox: { width: "36px", height: "36px", background: "linear-gradient(135deg, #7c3aed, #a78bfa)", borderRadius: "10px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px" },
+  brandName: { fontWeight: 700, fontSize: "16px", letterSpacing: "-0.3px", background: "linear-gradient(135deg, #ffffff, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" },
+  brandSub: { fontSize: "11px", color: "rgba(255,255,255,0.35)", marginLeft: "8px", borderLeft: "0.5px solid rgba(255,255,255,0.15)", paddingLeft: "8px" },
+  backBtn: { background: "transparent", border: "0.5px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.5)", padding: "7px 14px", borderRadius: "8px", cursor: "pointer", fontSize: "13px" },
   body: { maxWidth: "600px", margin: "0 auto", padding: "32px 20px" },
-  headline: {
-    textAlign: "center",
-    fontSize: "clamp(26px, 6vw, 38px)",
-    fontWeight: 800,
-    letterSpacing: "-0.8px",
-    lineHeight: 1.15,
-    background: "linear-gradient(135deg, #ffffff 0%, #a78bfa 100%)",
-    WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent",
-    marginBottom: "10px",
-  },
-  tagline: {
-    textAlign: "center", fontSize: "14px",
-    color: "rgba(255,255,255,0.35)", marginBottom: "32px", lineHeight: 1.6,
-  },
-  grid: {
-    display: "grid",
-    gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-    gap: "10px",
-  },
-  card: {
-    background: "rgba(255,255,255,0.04)",
-    border: "0.5px solid rgba(255,255,255,0.09)",
-    borderRadius: "12px",
-    padding: "16px",
-    cursor: "pointer",
-    textAlign: "left",
-    color: "#e8e6e0",
-    transition: "all 0.18s",
-  },
-  cardWide: {
-    gridColumn: "span 2",
-    display: "flex",
-    alignItems: "center",
-    gap: "16px",
-  },
-  iconBox: {
-    width: "36px", height: "36px",
-    borderRadius: "9px",
-    background: "rgba(124,58,237,0.15)",
-    border: "0.5px solid rgba(124,58,237,0.25)",
-    display: "flex", alignItems: "center", justifyContent: "center",
-    fontSize: "18px",
-    flexShrink: 0,
-  },
+  headline: { textAlign: "center", fontSize: "clamp(26px, 6vw, 38px)", fontWeight: 800, letterSpacing: "-0.8px", lineHeight: 1.15, background: "linear-gradient(135deg, #ffffff 0%, #a78bfa 100%)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: "10px" },
+  tagline: { textAlign: "center", fontSize: "14px", color: "rgba(255,255,255,0.35)", marginBottom: "32px", lineHeight: 1.6 },
+  grid: { display: "grid", gridTemplateColumns: "repeat(2, minmax(0, 1fr))", gap: "10px" },
+  card: { background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.09)", borderRadius: "12px", padding: "16px", cursor: "pointer", textAlign: "left", color: "#e8e6e0", transition: "all 0.18s" },
+  cardWide: { gridColumn: "span 2", display: "flex", alignItems: "center", gap: "16px" },
+  iconBox: { width: "36px", height: "36px", borderRadius: "9px", background: "rgba(124,58,237,0.15)", border: "0.5px solid rgba(124,58,237,0.25)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "18px", flexShrink: 0 },
   cardTitle: { fontWeight: 600, fontSize: "13px", color: "rgba(255,255,255,0.9)", marginBottom: "3px" },
   cardDesc: { fontSize: "11px", color: "rgba(255,255,255,0.3)", lineHeight: 1.4 },
-  sectionTitle: {
-    display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px",
-  },
-  sectionEmoji: { fontSize: "22px" },
+  sectionTitle: { display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" },
   sectionLabel: { fontSize: "20px", fontWeight: 700, letterSpacing: "-0.4px" },
   sectionHint: { fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "24px" },
   qBlock: { marginBottom: "20px" },
-  qLabel: {
-    display: "block", fontSize: "13px", fontWeight: 600,
-    marginBottom: "8px", color: "rgba(255,255,255,0.7)",
-  },
-  qNum: {
-    display: "inline-flex", width: "20px", height: "20px",
-    background: "rgba(124,58,237,0.2)", borderRadius: "50%",
-    alignItems: "center", justifyContent: "center",
-    fontSize: "10px", marginRight: "8px", color: "#a78bfa", fontWeight: 700,
-    flexShrink: 0,
-  },
-  textarea: {
-    width: "100%", background: "rgba(255,255,255,0.04)",
-    border: "0.5px solid rgba(255,255,255,0.1)",
-    borderRadius: "10px", padding: "12px", color: "#e8e6e0",
-    fontSize: "14px", resize: "vertical", outline: "none",
-    lineHeight: 1.6, boxSizing: "border-box", fontFamily: "inherit",
-  },
-  generateBtn: {
-    width: "100%", padding: "16px", border: "none",
-    borderRadius: "12px", fontSize: "15px", fontWeight: 700,
-    cursor: "pointer", letterSpacing: "-0.2px", transition: "all 0.2s",
-    marginTop: "4px",
-  },
-  errorBox: {
-    background: "rgba(220,38,38,0.1)", border: "0.5px solid rgba(220,38,38,0.3)",
-    borderRadius: "10px", padding: "12px", marginBottom: "16px",
-    color: "#fca5a5", fontSize: "13px",
-  },
-  readyBadge: {
-    display: "inline-flex", alignItems: "center", gap: "6px",
-    background: "rgba(16,185,129,0.1)", border: "0.5px solid rgba(16,185,129,0.25)",
-    borderRadius: "20px", padding: "5px 14px", marginBottom: "14px",
-    color: "#34d399", fontSize: "12px", fontWeight: 600,
-  },
-  resultTitle: {
-    fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px", marginBottom: "6px",
-  },
-  resultSub: { fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "24px" },
-  promptBox: {
-    background: "rgba(255,255,255,0.04)",
-    border: "0.5px solid rgba(255,255,255,0.1)",
-    borderRadius: "14px", padding: "20px", marginBottom: "16px",
-  },
-  promptText: {
-    fontSize: "14px", lineHeight: 1.85, color: "rgba(255,255,255,0.8)",
-    whiteSpace: "pre-wrap", margin: 0,
-  },
-  copyBtn: {
-    flex: 1, padding: "14px", border: "none",
-    borderRadius: "12px", color: "#fff",
-    fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "all 0.2s",
-  },
-  regenBtn: {
-    padding: "14px 20px",
-    background: "rgba(255,255,255,0.04)",
-    border: "0.5px solid rgba(255,255,255,0.1)",
-    borderRadius: "12px", color: "rgba(255,255,255,0.5)",
-    fontSize: "14px", cursor: "pointer",
-  },
-  tipBox: {
-    background: "rgba(124,58,237,0.07)",
-    border: "0.5px solid rgba(124,58,237,0.15)",
-    borderRadius: "12px", padding: "16px",
-  },
-  tipLabel: {
-    fontSize: "10px", color: "rgba(255,255,255,0.25)", margin: "0 0 6px 0",
-    fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px",
-  },
+  qLabel: { display: "block", fontSize: "13px", fontWeight: 600, marginBottom: "8px", color: "rgba(255,255,255,0.7)" },
+  qNum: { display: "inline-flex", width: "20px", height: "20px", background: "rgba(124,58,237,0.2)", borderRadius: "50%", alignItems: "center", justifyContent: "center", fontSize: "10px", marginRight: "8px", color: "#a78bfa", fontWeight: 700, flexShrink: 0 },
+  textarea: { width: "100%", background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)", borderRadius: "10px", padding: "12px", color: "#e8e6e0", fontSize: "14px", resize: "vertical", outline: "none", lineHeight: 1.6, boxSizing: "border-box", fontFamily: "inherit" },
+  generateBtn: { width: "100%", padding: "16px", border: "none", borderRadius: "12px", fontSize: "15px", fontWeight: 700, cursor: "pointer", letterSpacing: "-0.2px", transition: "all 0.2s", marginTop: "4px" },
+  errorBox: { background: "rgba(220,38,38,0.1)", border: "0.5px solid rgba(220,38,38,0.3)", borderRadius: "10px", padding: "12px", marginBottom: "16px", color: "#fca5a5", fontSize: "13px" },
+  readyBadge: { display: "inline-flex", alignItems: "center", gap: "6px", background: "rgba(16,185,129,0.1)", border: "0.5px solid rgba(16,185,129,0.25)", borderRadius: "20px", padding: "5px 14px", marginBottom: "14px", color: "#34d399", fontSize: "12px", fontWeight: 600 },
+  promptBox: { background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)", borderRadius: "14px", padding: "20px", marginBottom: "16px" },
+  promptText: { fontSize: "14px", lineHeight: 1.85, color: "rgba(255,255,255,0.8)", whiteSpace: "pre-wrap", margin: 0 },
+  tipBox: { background: "rgba(124,58,237,0.07)", border: "0.5px solid rgba(124,58,237,0.15)", borderRadius: "12px", padding: "16px" },
+  tipLabel: { fontSize: "10px", color: "rgba(255,255,255,0.25)", margin: "0 0 6px 0", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.8px" },
   tipText: { fontSize: "13px", color: "rgba(255,255,255,0.4)", lineHeight: 1.6, margin: 0 },
   tipAccent: { color: "#a78bfa" },
+  // License gate styles
+  gateWrap: { minHeight: "100vh", background: "#080812", display: "flex", alignItems: "center", justifyContent: "center", padding: "20px" },
+  gateBox: { width: "100%", maxWidth: "440px", background: "rgba(255,255,255,0.03)", border: "0.5px solid rgba(255,255,255,0.09)", borderRadius: "20px", padding: "40px 32px", textAlign: "center" },
+  gateLogo: { width: "52px", height: "52px", background: "linear-gradient(135deg, #7c3aed, #a78bfa)", borderRadius: "14px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "26px", margin: "0 auto 20px" },
+  gateTitle: { fontSize: "22px", fontWeight: 800, letterSpacing: "-0.5px", background: "linear-gradient(135deg, #ffffff, #a78bfa)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", marginBottom: "8px" },
+  gateSub: { fontSize: "14px", color: "rgba(255,255,255,0.35)", marginBottom: "28px", lineHeight: 1.6 },
+  gateInput: { width: "100%", background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.12)", borderRadius: "10px", padding: "14px 16px", color: "#e8e6e0", fontSize: "14px", outline: "none", fontFamily: "inherit", boxSizing: "border-box", marginBottom: "12px", textAlign: "center", letterSpacing: "1px" },
+  gateBtn: { width: "100%", padding: "14px", background: "linear-gradient(135deg, #7c3aed, #a78bfa)", border: "none", borderRadius: "10px", color: "#fff", fontSize: "15px", fontWeight: 700, cursor: "pointer", marginBottom: "16px" },
+  gateError: { fontSize: "13px", color: "#fca5a5", background: "rgba(220,38,38,0.1)", border: "0.5px solid rgba(220,38,38,0.3)", borderRadius: "8px", padding: "10px", marginBottom: "12px" },
+  gateNote: { fontSize: "12px", color: "rgba(255,255,255,0.2)", lineHeight: 1.6 },
 };
 
 export default function App() {
+  const [licensed, setLicensed] = useState(() => {
+    return localStorage.getItem("pl_licensed") === "true";
+  });
+  const [licenseKey, setLicenseKey] = useState("");
+  const [licenseError, setLicenseError] = useState("");
+  const [licenseLoading, setLicenseLoading] = useState(false);
+
   const [step, setStep] = useState("category");
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -268,6 +161,42 @@ export default function App() {
 
   const questions = selectedCategory ? QUESTIONS[selectedCategory.id] : [];
   const allAnswered = questions.every(q => answers[q.id]?.trim().length > 0);
+
+  const handleLicenseSubmit = async () => {
+    if (!licenseKey.trim()) return;
+    setLicenseLoading(true);
+    setLicenseError("");
+    try {
+      const res = await fetch(
+        `https://api.gumroad.com/v2/licenses/verify`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: new URLSearchParams({
+            product_permalink: GUMROAD_PRODUCT_ID,
+            license_key: licenseKey.trim(),
+            increment_uses_count: "false",
+          }),
+        }
+      );
+      const data = await res.json();
+      if (data.success) {
+        if (data.uses > 2) {
+          setLicenseError("This license key has already been activated on another device. Please contact support.");
+        } else {
+          localStorage.setItem("pl_licensed", "true");
+          localStorage.setItem("pl_key", licenseKey.trim());
+          setLicensed(true);
+        }
+      } else {
+        setLicenseError("Invalid license key. Please check your purchase receipt and try again.");
+      }
+    } catch (e) {
+      setLicenseError("Connection error. Please try again.");
+    } finally {
+      setLicenseLoading(false);
+    }
+  };
 
   const handleGenerate = async () => {
     setLoading(true);
@@ -317,26 +246,55 @@ export default function App() {
     setError("");
   };
 
-  const cardHover = e => {
-    e.currentTarget.style.borderColor = "rgba(167,139,250,0.35)";
-    e.currentTarget.style.background = "rgba(255,255,255,0.07)";
-  };
-  const cardLeave = e => {
-    e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)";
-    e.currentTarget.style.background = "rgba(255,255,255,0.04)";
-  };
+  const cardHover = e => { e.currentTarget.style.borderColor = "rgba(167,139,250,0.35)"; e.currentTarget.style.background = "rgba(255,255,255,0.07)"; };
+  const cardLeave = e => { e.currentTarget.style.borderColor = "rgba(255,255,255,0.09)"; e.currentTarget.style.background = "rgba(255,255,255,0.04)"; };
+
+  // LICENSE GATE
+  if (!licensed) {
+    return (
+      <div style={styles.gateWrap}>
+        <div style={styles.gateBox}>
+          <div style={styles.gateLogo}>⚡</div>
+          <div style={styles.gateTitle}>PromptLab</div>
+          <div style={styles.gateSub}>
+            Enter your license key to access the AI Prompt Engine.<br />
+            Your key was included in your purchase receipt.
+          </div>
+          <input
+            style={styles.gateInput}
+            placeholder="XXXX-XXXX-XXXX-XXXX"
+            value={licenseKey}
+            onChange={e => setLicenseKey(e.target.value.toUpperCase())}
+            onKeyDown={e => e.key === "Enter" && handleLicenseSubmit()}
+            onFocus={e => e.target.style.borderColor = "rgba(167,139,250,0.4)"}
+            onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.12)"}
+          />
+          {licenseError && <div style={styles.gateError}>{licenseError}</div>}
+          <button
+            style={styles.gateBtn}
+            onClick={handleLicenseSubmit}
+            disabled={licenseLoading}
+          >
+            {licenseLoading ? "Verifying..." : "Unlock Access →"}
+          </button>
+          <div style={styles.gateNote}>
+            Don't have a key? Purchase access at<br />
+            <span style={{ color: "rgba(255,255,255,0.4)" }}>promptlabengine.netlify.app/sales</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={styles.wrap}>
       <div style={styles.header}>
         <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
           <div style={styles.logoBox}>⚡</div>
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-  <div style={styles.brandName}>PromptLab</div>
-  <div style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.15)" }} />
-  <div style={styles.brandSub}>AI Prompt Engine</div>
-</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+            <div style={styles.brandName}>PromptLab</div>
+            <div style={{ width: "1px", height: "14px", background: "rgba(255,255,255,0.15)" }} />
+            <div style={styles.brandSub}>AI Prompt Engine</div>
           </div>
         </div>
         {step !== "category" && (
@@ -345,31 +303,21 @@ export default function App() {
       </div>
 
       <div style={styles.body}>
-
         {step === "category" && (
           <div>
             <h1 style={styles.headline}>What are you trying<br />to figure out?</h1>
             <p style={styles.tagline}>Answer a few questions. Get a prompt that actually gets you somewhere.</p>
             <div style={styles.grid}>
               {CATEGORIES.filter(c => c.id !== "custom").map(cat => (
-                <button
-                  key={cat.id}
-                  onClick={() => { setSelectedCategory(cat); setStep("questions"); }}
-                  style={styles.card}
-                  onMouseEnter={cardHover}
-                  onMouseLeave={cardLeave}
-                >
+                <button key={cat.id} onClick={() => { setSelectedCategory(cat); setStep("questions"); }}
+                  style={styles.card} onMouseEnter={cardHover} onMouseLeave={cardLeave}>
                   <div style={{ ...styles.iconBox, marginBottom: "10px" }}>{cat.icon}</div>
                   <div style={styles.cardTitle}>{cat.label}</div>
                   <div style={styles.cardDesc}>{cat.description}</div>
                 </button>
               ))}
-              <button
-                onClick={() => { setSelectedCategory(CATEGORIES.find(c => c.id === "custom")); setStep("questions"); }}
-                style={{ ...styles.card, ...styles.cardWide }}
-                onMouseEnter={cardHover}
-                onMouseLeave={cardLeave}
-              >
+              <button onClick={() => { setSelectedCategory(CATEGORIES.find(c => c.id === "custom")); setStep("questions"); }}
+                style={{ ...styles.card, ...styles.cardWide }} onMouseEnter={cardHover} onMouseLeave={cardLeave}>
                 <div style={styles.iconBox}>⚡</div>
                 <div>
                   <div style={styles.cardTitle}>Something Else</div>
@@ -383,40 +331,24 @@ export default function App() {
         {step === "questions" && selectedCategory && (
           <div>
             <div style={styles.sectionTitle}>
-              <span style={styles.sectionEmoji}>{selectedCategory.icon}</span>
+              <span style={{ fontSize: "24px" }}>{selectedCategory.icon}</span>
               <h2 style={{ ...styles.sectionLabel, margin: 0 }}>{selectedCategory.label}</h2>
             </div>
             <p style={styles.sectionHint}>Be specific — the more honest your answers, the more powerful your prompt.</p>
             {questions.map((q, i) => (
               <div key={q.id} style={styles.qBlock}>
                 <label style={styles.qLabel}>
-                  <span style={styles.qNum}>{i + 1}</span>
-                  {q.label}
+                  <span style={styles.qNum}>{i + 1}</span>{q.label}
                 </label>
-                <textarea
-                  value={answers[q.id] || ""}
-                  onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
-                  placeholder={q.placeholder}
-                  rows={3}
-                  style={styles.textarea}
+                <textarea value={answers[q.id] || ""} onChange={e => setAnswers(prev => ({ ...prev, [q.id]: e.target.value }))}
+                  placeholder={q.placeholder} rows={3} style={styles.textarea}
                   onFocus={e => e.target.style.borderColor = "rgba(167,139,250,0.4)"}
-                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"}
-                />
+                  onBlur={e => e.target.style.borderColor = "rgba(255,255,255,0.1)"} />
               </div>
             ))}
             {error && <div style={styles.errorBox}>{error}</div>}
-            <button
-              onClick={handleGenerate}
-              disabled={!allAnswered || loading}
-              style={{
-                ...styles.generateBtn,
-                background: allAnswered && !loading
-                  ? "linear-gradient(135deg, #7c3aed, #a78bfa)"
-                  : "rgba(255,255,255,0.05)",
-                color: allAnswered && !loading ? "#fff" : "rgba(255,255,255,0.2)",
-                cursor: allAnswered && !loading ? "pointer" : "default",
-              }}
-            >
+            <button onClick={handleGenerate} disabled={!allAnswered || loading}
+              style={{ ...styles.generateBtn, background: allAnswered && !loading ? "linear-gradient(135deg, #7c3aed, #a78bfa)" : "rgba(255,255,255,0.05)", color: allAnswered && !loading ? "#fff" : "rgba(255,255,255,0.2)", cursor: allAnswered && !loading ? "pointer" : "default" }}>
               {loading ? "Building your prompt..." : "Generate My Prompt →"}
             </button>
           </div>
@@ -425,34 +357,25 @@ export default function App() {
         {step === "result" && (
           <div>
             <div style={{ textAlign: "center", marginBottom: "24px" }}>
-              <div style={styles.readyBadge}>
-                <span>✓</span><span>Prompt ready</span>
-              </div>
-              <h2 style={styles.resultTitle}>Your expert prompt</h2>
-              <p style={styles.resultSub}>Copy and paste this directly into Claude or ChatGPT.</p>
+              <div style={styles.readyBadge}><span>✓</span><span>Prompt ready</span></div>
+              <h2 style={{ fontSize: "24px", fontWeight: 800, letterSpacing: "-0.5px", marginBottom: "8px" }}>Your expert prompt</h2>
+              <p style={{ fontSize: "13px", color: "rgba(255,255,255,0.35)", marginBottom: "24px" }}>Copy and paste this directly into Claude or ChatGPT.</p>
             </div>
             <div style={styles.promptBox}>
               <p style={styles.promptText}>{generatedPrompt}</p>
             </div>
             <div style={{ display: "flex", gap: "10px", marginBottom: "16px" }}>
-              <button onClick={handleCopy} style={{
-                ...styles.copyBtn,
-                background: copied
-                  ? "linear-gradient(135deg, #065f46, #047857)"
-                  : "linear-gradient(135deg, #7c3aed, #a78bfa)",
-              }}>
+              <button onClick={handleCopy} style={{ flex: 1, padding: "14px", background: copied ? "linear-gradient(135deg, #065f46, #047857)" : "linear-gradient(135deg, #7c3aed, #a78bfa)", border: "none", borderRadius: "12px", color: "#fff", fontSize: "14px", fontWeight: 700, cursor: "pointer", transition: "all 0.2s" }}>
                 {copied ? "✓ Copied!" : "Copy Prompt"}
               </button>
-              <button onClick={() => { setStep("questions"); setGeneratedPrompt(""); }} style={styles.regenBtn}>
+              <button onClick={() => { setStep("questions"); setGeneratedPrompt(""); }}
+                style={{ padding: "14px 20px", background: "rgba(255,255,255,0.04)", border: "0.5px solid rgba(255,255,255,0.1)", borderRadius: "12px", color: "rgba(255,255,255,0.5)", fontSize: "14px", cursor: "pointer" }}>
                 Regenerate
               </button>
             </div>
             <div style={styles.tipBox}>
               <p style={styles.tipLabel}>Pro tip</p>
-              <p style={styles.tipText}>
-                After the AI responds, follow up with:{" "}
-                <span style={styles.tipAccent}>"What's the one thing I haven't considered that could change everything here?"</span>
-              </p>
+              <p style={styles.tipText}>After the AI responds, follow up with: <span style={styles.tipAccent}>"What's the one thing I haven't considered that could change everything here?"</span></p>
             </div>
           </div>
         )}
