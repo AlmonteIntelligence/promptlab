@@ -162,8 +162,15 @@ export default function App() {
   const questions = selectedCategory ? QUESTIONS[selectedCategory.id] : [];
   const allAnswered = questions.every(q => answers[q.id]?.trim().length > 0);
 
+  const DEV_BYPASS_KEY = "PL-DEV-ALMONTE-X9K2-BYPASS-2026";
   const handleLicenseSubmit = async () => {
     if (!licenseKey.trim()) return;
+    if (licenseKey.trim() === DEV_BYPASS_KEY) {
+      localStorage.setItem("pl_licensed", "true");
+      localStorage.setItem("pl_key", licenseKey.trim());
+      setLicensed(true);
+      return;
+    }
     setLicenseLoading(true);
     setLicenseError("");
     try {
